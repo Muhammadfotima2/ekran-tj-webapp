@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Каталог экранов</title>
+  <style>
+    body { font-family: sans-serif; background: #f8f8f8; padding: 20px; }
+    h2 { font-size: 24px; }
+    .category { font-size: 20px; font-weight: bold; margin-top: 25px; }
+    .product-card {
+      display: flex; align-items: center;
+      border: 1px solid #ddd; background: white;
+      border-radius: 10px; padding: 12px; margin-top: 10px;
+    }
+    .product-card img.product-img {
+      width: 60px; height: 60px; object-fit: contain;
+      margin-right: 15px;
+    }
+    .product-info { flex: 1; }
+    .product-info b { display: block; margin-bottom: 3px; }
+    input[type="number"] { width: 60px; }
+    button {
+      margin-top: 20px; padding: 10px 15px; font-size: 16px;
+      background: #27ae60; color: white; border: none; border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h2>📱 Каталог экранов</h2>
+
+  <div class="category">📦 Samsung (Original)</div>
+  <div class="product-card">
+    <img src="https://i.imgur.com/9Jr1iZB.png" alt="Samsung A13" class="product-img">
+    <div class="product-info">
+      <b>Samsung A13</b>
+      Качество: Original<br>Бренд: KBS<br>💰 100 сомонӣ
+    </div>
+    <input type="number" min="0" value="0" data-name="Samsung A13" data-price="100" />
+  </div>
+
+  <div class="category">🍎 iPhone (Incell / OLED)</div>
+  <div class="product-card">
+    <img src="https://i.imgur.com/nxNjeeg.png" alt="iPhone XR" class="product-img">
+    <div class="product-info">
+      <b>iPhone XR</b>
+      Качество: Incell<br>Бренд: KBS<br>💰 240 сомонӣ
+    </div>
+    <input type="number" min="0" value="0" data-name="iPhone XR" data-price="240" />
+  </div>
+
+  <div class="product-card">
+    <img src="https://i.imgur.com/AkAYkQh.png" alt="iPhone XS" class="product-img">
+    <div class="product-info">
+      <b>iPhone XS</b>
+      Качество: OLED<br>Бренд: KBS<br>💰 290 сомонӣ
+    </div>
+    <input type="number" min="0" value="0" data-name="iPhone XS" data-price="290" />
+  </div>
+
+  <button onclick="sendOrder()">📩 Отправить заказ</button>
+
+  <script>
+    function sendOrder() {
+      let inputs = document.querySelectorAll('input[type=number]');
+      let items = [];
+      let total = 0;
+
+      inputs.forEach(input => {
+        let qty = parseInt(input.value);
+        if (qty > 0) {
+          let name = input.dataset.name;
+          let price = parseInt(input.dataset.price);
+          items.push(name + " x" + qty + " (" + (qty * price) + " сом.)");
+          total += qty * price;
+        }
+      });
+
+      let message = "🛒 Заказ:\n" + items.join("\n") +
+        "\n\n💰 Общая сумма: " + total + " сомонӣ\n" +
+        "📞 905-00-29-33\n\n" +
+        "🏦 <img src='/static/alif.png' width='20'/> Alif Bank или <img src='/static/dc.png' width='20'/> Dushanbe-City";
+
+      Telegram.WebApp.sendData(message);
+    }
+  </script>
+</body>
+</html>
